@@ -90,7 +90,7 @@ shinyServer(function(input, output, session) {
     histInput()
   })
   
-  #create to save fundtion
+  #create to save function
   output$downloadHistogram <- downloadHandler(
     filename = function() {
       paste("histogram", ".png", sep="")
@@ -101,6 +101,21 @@ shinyServer(function(input, output, session) {
       dev.off()
     }
   )
+  
+  #download data for the histograms
+  histogramdata <- reactive({
+    histogramdata <- myData %>% 
+      dplyr::select(SEQN, Ethnicity, IncomeGroup, Education)
+  })
+  
+  # Download Data for this tab
+  output$histogramdata_csv <- downloadHandler(
+    filename = "histogramdata.csv",
+    content = function(file) {
+      write.csv(histogramdata(), file)
+    },
+    contentType = "text/csv"
+  )  
   
 # Scatter plot --------------------------------------------------------------------------------------
   
@@ -170,6 +185,20 @@ shinyServer(function(input, output, session) {
     }  
   })
   
+  #download data for the scatter plot
+  scatterplotdata <- reactive({
+    scatterplotdata <- myData %>% 
+      dplyr::select(SEQN, PacksPerDay, Age, Ethnicity)
+  })
+  
+  # Download Data for this tab
+  output$scatterplotdata_csv <- downloadHandler(
+    filename = "scatterplotdata.csv",
+    content = function(file) {
+      write.csv(scatterplotdata(), file)
+    },
+    contentType = "text/csv"
+  )    
   
 #create data table by Ethnicity--------------------------------------------------------------------------    
   output$table <- renderDataTable(
@@ -356,7 +385,7 @@ shinyServer(function(input, output, session) {
   
   #create renderUI for sub-title 
   output$vartitle <- renderUI({
-    h4(paste("Data Dictionary"))
+    h4(paste("Data Dictionary for key variables"))
   })
   
   output$var2info <- renderText({

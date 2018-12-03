@@ -98,7 +98,8 @@ shinyUI(fluidPage(
                    downloadButton('downloadDensity', "Download the density plot"),
                    uiOutput("histtitle"),
                    plotOutput("hist"),
-                   downloadButton('downloadHistogram', "Download the histogram")     
+                   downloadButton('histogramdata_csv', "Download the data for the histogram graph"),
+                   downloadButton('downloadHistogram', "Download the histogram graph")     
                   )
                 ),
         tabPanel("Plot", 
@@ -107,6 +108,7 @@ shinyUI(fluidPage(
                    uiOutput("smokeinfo"),  
                    uiOutput("ageinfo"),  
                    plotOutput("scatterPlot", click = "plot_click"),
+                   downloadButton('scatterplotdata_csv', "Download the data for the scatter plot"),
                    downloadButton('downloadScatterplot', "Download the scatter plot"),                  
                    verbatimTextOutput("clickinfo")
                   )
